@@ -36,23 +36,35 @@
     {% endif %} -->
     
 
-    {% if divs%}
+    {% if linkAndHeader%}
     <div class="container">
         <div class="row justify-content-center">
-            
-            {% for item in divs %}
-            
 
+            <!-- Remember the order. First we put header in the zip. Then 
+            link. By the same order we are extracting the vales. -->
+
+            <!-- our data is in 2D list. For example: [['one'] , ['two']].
+            So, in loop we will get one afer another.
+
+            For example, from 'linkAndHeader' we are getting 'itemHeader'.
+            So, 'itemHeader' will look list this: ['one'] - a single value.
+            Now to remove array looks, I mean the bracket"[]" we will add 
+            first index. Because our value is in the first position. 
+
+            So, "itemHeader.0" -- here ".0" to get first index. 
+            -->
+            {% for itemHeader, itemLink in linkAndHeader %}
             
             <div class="col-md-6 m-5">
                 <div class="card">         
                     <div class="card-body">
-                        <h5 class="card-title text-sm-justify">{{item}}</h5>
-                        <a href="" target="_blank" class="btn btn-primary btn-block">Link</a>
+                        <!-- <h5 class="card-title text-sm-justify">{{item}}</h5> -->
+                        <h5 class="card-title text-sm-justify">{{itemHeader.0}}</h5>
+                        <a href="{{itemLink.0}}" target="_blank" class="btn btn-primary btn-block">Link</a>
                     </div>
                 </div>
             </div>
-            
+
             {% endfor%}
             
         </div>
@@ -60,6 +72,9 @@
     {% else %}
         <div class=" mt-5"><h3 style="color:brown;" class="text-center">No Data Found</h3></div>
     {% endif %}
+
+    
+
 
     <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
