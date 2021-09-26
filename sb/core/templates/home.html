@@ -12,31 +12,16 @@
   <body>
     <h1 class="text-center mt-4">Find Data</h1>
       
-    <div class="container mt-3">
+    <div class="container">
         <nav class=" nav justify-content-center">
             <form class="form-inline">
               <input class="form-control" type="text" id="keywords" value="{{ request.GET.keywords }}" placeholder="Keyword you want to search...." name="keywords">
               <button class="btn btn-outline-success my-2 my-sm-0" type="submit"><i class="fa fa-search"></i></button>
             </form>
         </nav>
-    </div>
-    <!-- {% if result %}
-        <div class="container">
-            <div class="row justify-content-center">
-                <div class="col-md-6 m-5">
-                    <div class="card">         
-                        <div class="card-body">
-                            <h5 class="card-title text-sm-center">{{ result.title }}</h5>
-                            <a href="{{result.link}}" target="_blank" class="btn btn-primary btn-block">Link</a>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    {% endif %} -->
-    
+    </div>   
 
-    {% if linkAndHeader%}
+    {% if linkAndHeader %}
     <div class="container">
         <div class="row justify-content-center">
 
@@ -55,10 +40,9 @@
             -->
             {% for itemHeader, itemLink in linkAndHeader %}
             
-            <div class="col-md-6 m-5">
-                <div class="card">         
+            <div class="col-md-6 mt-3 mb-3 ml-5 mr-5">
+                <div class="card"> 
                     <div class="card-body">
-                        <!-- <h5 class="card-title text-sm-justify">{{item}}</h5> -->
                         <h5 class="card-title text-sm-justify">{{itemHeader.0}}</h5>
                         <a href="{{itemLink.0}}" target="_blank" class="btn btn-primary btn-block">Link</a>
                     </div>
@@ -73,9 +57,33 @@
         <div class=" mt-5"><h3 style="color:brown;" class="text-center">No Data Found</h3></div>
     {% endif %}
 
+    <!-- financial express -->
+
+    {% if linkAndHeader2 %}
+    <h4 class="text-center" style="color: red;">The Financial Express</h4>
+    <div class="container">
+        <div class="row justify-content-center">
+
+            
+            {% for allHeaderFinanceExp,allLinksFinanceExp in linkAndHeader2 %}
+            
+            <div class="col-md-6 mt-3 mb-3 ml-5 mr-5">
+                <div class="card">         
+                    <div class="card-body">
+
+                        <h5 class="card-title text-sm-justify">{{allHeaderFinanceExp.0}}</h5>
+                        <a href="{{allLinksFinanceExp.0}}" target="_blank" class="btn btn-primary btn-block">Link</a>
+                    </div>
+                </div>
+            </div>
+
+            {% endfor %}
+            
+        </div>
+    </div>
     
-
-
+    {% endif %}
+    
     <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
