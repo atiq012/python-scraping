@@ -44,7 +44,7 @@
                 <div class="card"> 
                     <div class="card-body">
                         <h5 class="card-title text-sm-justify">{{itemHeader.0}}</h5>
-                        <a href="{{itemLink.0}}" target="_blank" class="btn btn-primary btn-block">Link</a>
+                        <a href="{{itemLink.0}}" target="_blank" class="btn btn-primary btn-block">Link (Prothom Alo)</a>
                     </div>
                 </div>
             </div>
@@ -54,13 +54,41 @@
         </div>
     </div>
     {% else %}
-        <div class=" mt-5"><h3 style="color:brown;" class="text-center">No Data Found</h3></div>
+        <div class=" mt-5"><h3 style="color:brown;" class="text-center">Keywords For Search</h3></div>
+    {% endif %}
+    
+    
+    <!--  akashnews24 -->
+    {% if linkAndHeader3 %}
+    <!-- <h4 class="text-center mt-2" style="color: red;">akashnews24</h4> -->
+    <div class="container">
+        <div class="row justify-content-center">
+
+            
+            {% for allHeaderFinanceExp,allLinksFinanceExp in linkAndHeader3 %}
+            
+            <div class="col-md-6 mt-3 mb-3 ml-5 mr-5">
+                <div class="card">         
+                    <div class="card-body">
+
+                        <h5 class="card-title text-sm-justify">{{allHeaderFinanceExp.0}}</h5>
+                        <a href="{{allLinksFinanceExp.0}}" target="_blank" class="btn btn-primary btn-block">Link (akashnews24)</a>
+                    </div>
+                </div>
+            </div>
+
+            {% endfor %}
+            
+        </div>
+    </div>
+    
     {% endif %}
 
     <!-- financial express -->
 
     {% if linkAndHeader2 %}
-    <h4 class="text-center" style="color: red;">The Financial Express</h4>
+    <!-- <h4 class="text-center mt-2" style="color: red;">The Financial Express</h4> -->
+        <!-- {{linkAndHeader2}} -->
     <div class="container">
         <div class="row justify-content-center">
 
@@ -72,7 +100,7 @@
                     <div class="card-body">
 
                         <h5 class="card-title text-sm-justify">{{allHeaderFinanceExp.0}}</h5>
-                        <a href="{{allLinksFinanceExp.0}}" target="_blank" class="btn btn-primary btn-block">Link</a>
+                        <a href="{{allLinksFinanceExp.0}}" target="_blank" class="btn btn-primary btn-block">Link (The Financial Express)</a>
                     </div>
                 </div>
             </div>
