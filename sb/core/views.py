@@ -1,6 +1,7 @@
 from django.http.response import HttpResponse
 from django.http import HttpResponse
 from django.shortcuts import render
+from requests.sessions import session
 
 # prothom alo
 def get_html_content(keywords):
@@ -42,8 +43,8 @@ def get_html_content_new_age(keywords):
     
     return html_content_newage
 
-# jugantor
-def get_html_content_jugantor(keywords):
+# akashtv24 
+def get_html_content_akash(keywords):
     import requests
     USER_AGENT = "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/44.0.2403.157 Safari/537.36"
     LANGUAGE = "en-US,en;q=0.5"
@@ -63,14 +64,29 @@ def get_html_content_jugantor(keywords):
     
     return html_content_jugantor
 
+# jugantor 
+
+def get_html_content_jugantor_news(keywords):
+    import requests
+    USER_AGENT = "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/44.0.2403.157 Safari/537.36"
+    LANGUAGE = "en-US,en;q=0.5"
+    session = requests.Session()
+    session.headers['User-Agent'] = USER_AGENT
+    session.headers['Accept-Language'] = LANGUAGE
+    session.headers['Content-Language'] = LANGUAGE
+
+    if keywords:
+        keywords = keywords.replace(' ','+')
+        # url = session.get(f'https://www.thedailystar.net/search?t={keywords}').text
+        url = session.get(f'https://www.jugantor.com/search/google?q={keywords}').text
+    else:
+        keywords = ''
+        url = '' 
+    return url
+    
 
 def home(request):
-    # datewise search
-    # import datetime
-    # stime = "09/21/2021 00:00:00.0000"
-    
-    # print(int(datetime.datetime.strptime(stime, '%m/%d/%Y %H:%M:%S.%f').timestamp()))
-    
+        
     divs = None
     linkAndHeader = None
     linkAndHeader2 = None
@@ -84,9 +100,12 @@ def home(request):
         # financial express
         html_content_new_age = get_html_content_new_age(keywords)
 
-        # jugantor news
-        html_content_jugantor = get_html_content_jugantor(keywords)
+        # akash news
+        html_content_jugantor = get_html_content_akash(keywords)
         
+        #jugantor
+        html_content_jug = get_html_content_jugantor_news(keywords)
+
         import re
         from bs4 import BeautifulSoup
 
@@ -151,5 +170,14 @@ def home(request):
         
             
         linkAndHeader2 = zip(allHeaderFinanceExp,allLinksFinanceExp)
+
+
+
+        # jugantor news all
+        soupForjug = BeautifulSoup(html_content_jug,'html.parser')
+        # print(soupForjug)
+        jugantor_all = soupForjug.find_all('div')
+        
+        print(jugantor_all)
         
     return render(request, 'home.html',{'linkAndHeader': linkAndHeader, 'linkAndHeader2': linkAndHeader2, 'linkAndHeader3':linkAndHeader3})
