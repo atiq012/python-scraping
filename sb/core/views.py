@@ -3,10 +3,13 @@ from django.http import HttpResponse
 from django.shortcuts import render
 from requests.sessions import session
 
+
+
 # prothom alo
 def get_html_content(keywords):
     
     import requests
+
     USER_AGENT = "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/44.0.2403.157 Safari/537.36"
     LANGUAGE = "en-US,en;q=0.5"
     session = requests.Session()
@@ -83,6 +86,25 @@ def get_html_content_jugantor_news(keywords):
         keywords = ''
         url = '' 
     return url
+
+# dmp news
+def get_html_content_DMP_news(keywords):
+    import requests
+    USER_AGENT = "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/44.0.2403.157 Safari/537.36"
+    LANGUAGE = "en-US,en;q=0.5"
+    session = requests.Session()
+    session.headers['User-Agent'] = USER_AGENT
+    session.headers['Accept-Language'] = LANGUAGE
+    session.headers['Content-Language'] = LANGUAGE
+
+    if keywords:
+        keywords = keywords.replace(' ','+')
+        
+        url = session.get(f'https://dmpnews.org/?s={keywords}').text
+    else:
+        keywords = ''
+        url = '' 
+    return url
     
 
 def home(request):
@@ -91,6 +113,7 @@ def home(request):
     linkAndHeader = None
     linkAndHeader2 = None
     linkAndHeader3 = None
+    linkAndHeader4 = None
     if 'keywords' in request.GET:
         
         keywords = request.GET.get('keywords')
@@ -106,11 +129,14 @@ def home(request):
         #jugantor
         html_content_jug = get_html_content_jugantor_news(keywords)
 
+        # dmp news
+        html_content_dmp_news = get_html_content_DMP_news(keywords)
+
         import re
         from bs4 import BeautifulSoup
 
         soup = BeautifulSoup(html_content, 'html.parser')
-        
+        dmp_news = BeautifulSoup(html_content_dmp_news,'html.parser')
         
         # prothom alo all datas
         divs = soup.find_all('div', class_ = 'customStoryCard9-m__base__1rOCp')
@@ -171,13 +197,24 @@ def home(request):
             
         linkAndHeader2 = zip(allHeaderFinanceExp,allLinksFinanceExp)
 
+        # dmp news all
+        dmp_news_all = dmp_news.find_all('article', class_ = 'has-post-thumbnail')
+        
+        allLinksDmp = []
+        allHeaderDmp = []
 
-
+        for dmp in dmp_news_all:
+            temp = dmp.h3.text
+            temp2 = dmp.h3.a.get('href') # Getting Link
+            allHeaderDmp.append([temp])
+            allLinksDmp.append([temp2])
+        linkAndHeader4 = zip(allHeaderDmp,allLinksDmp)
+        
+        
         # jugantor news all
         soupForjug = BeautifulSoup(html_content_jug,'html.parser')
         # print(soupForjug)
         jugantor_all = soupForjug.find_all('div')
         
-        print(jugantor_all)
         
-    return render(request, 'home.html',{'linkAndHeader': linkAndHeader, 'linkAndHeader2': linkAndHeader2, 'linkAndHeader3':linkAndHeader3})
+    return render(request, 'home.html',{'linkAndHeader': linkAndHeader, 'linkAndHeader2': linkAndHeader2, 'linkAndHeader3':linkAndHeader3,'linkAndHeader4':linkAndHeader4})

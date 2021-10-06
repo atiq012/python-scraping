@@ -56,8 +56,31 @@
     {% else %}
         <div class=" mt-5"><h3 style="color:brown;" class="text-center">Keywords For Search</h3></div>
     {% endif %}
+    <!-- dmp news -->
+    {% if linkAndHeader4 %}
     
+    <div class="container">
+        <div class="row justify-content-center">
+
+            
+            {% for allHeaderDmp,allLinksDmp in linkAndHeader4 %}
+            
+            <div class="col-md-6 mt-3 mb-3 ml-5 mr-5">
+                <div class="card">         
+                    <div class="card-body">
+
+                        <h5 class="card-title text-sm-justify">{{allHeaderDmp.0}}</h5>
+                        <a href="{{allLinksDmp.0}}" target="_blank" class="btn btn-primary btn-block">Link (DMP news)</a>
+                    </div>
+                </div>
+            </div>
+
+            {% endfor %}
+            
+        </div>
+    </div>
     
+    {% endif %}
     <!--  akashnews24 -->
     {% if linkAndHeader3 %}
     
