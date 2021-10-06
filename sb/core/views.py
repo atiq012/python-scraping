@@ -2,8 +2,7 @@ from django.http.response import HttpResponse
 from django.http import HttpResponse
 from django.shortcuts import render
 from requests.sessions import session
-
-
+from selenium import webdriver
 
 # prothom alo
 def get_html_content(keywords):
@@ -71,17 +70,24 @@ def get_html_content_akash(keywords):
 
 def get_html_content_jugantor_news(keywords):
     import requests
-    USER_AGENT = "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/44.0.2403.157 Safari/537.36"
-    LANGUAGE = "en-US,en;q=0.5"
-    session = requests.Session()
-    session.headers['User-Agent'] = USER_AGENT
-    session.headers['Accept-Language'] = LANGUAGE
-    session.headers['Content-Language'] = LANGUAGE
+    # USER_AGENT = "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/44.0.2403.157 Safari/537.36"
+    # LANGUAGE = "en-US,en;q=0.5"
+    # session = requests.Session()
+    # session.headers['User-Agent'] = USER_AGENT
+    # session.headers['Accept-Language'] = LANGUAGE
+    # session.headers['Content-Language'] = LANGUAGE
+    driver = webdriver.Chrome('C:\chromedriver.exe')
+    
 
     if keywords:
         keywords = keywords.replace(' ','+')
         # url = session.get(f'https://www.thedailystar.net/search?t={keywords}').text
-        url = session.get(f'https://www.jugantor.com/search/google?q={keywords}').text
+        # url = session.get(f'https://www.jugantor.com/search/google?q={keywords}').text
+        
+        # print(value)
+        driver.get(f'https://www.thedailystar.net/search?t={keywords}') #navigate to the page
+        url = driver.execute_script("return document.body.innerHTML")
+        
     else:
         keywords = ''
         url = '' 
@@ -114,9 +120,13 @@ def home(request):
     linkAndHeader2 = None
     linkAndHeader3 = None
     linkAndHeader4 = None
+    linkAndHeader5 = None
     if 'keywords' in request.GET:
         
         keywords = request.GET.get('keywords')
+        # test
+
+        
         # protom alo
         html_content = get_html_content(keywords)
         
@@ -128,13 +138,13 @@ def home(request):
         
         #jugantor
         html_content_jug = get_html_content_jugantor_news(keywords)
-
+        
         # dmp news
         html_content_dmp_news = get_html_content_DMP_news(keywords)
 
         import re
         from bs4 import BeautifulSoup
-
+        
         soup = BeautifulSoup(html_content, 'html.parser')
         dmp_news = BeautifulSoup(html_content_dmp_news,'html.parser')
         
@@ -214,7 +224,15 @@ def home(request):
         # jugantor news all
         soupForjug = BeautifulSoup(html_content_jug,'html.parser')
         # print(soupForjug)
-        jugantor_all = soupForjug.find_all('div')
+        jugantor_all = soupForjug.find_all('div', class_ = 'gsc-webResult gsc-result')
+
+        allLinksjugan = []
+        allHeaderjugan = []
+        for data in jugantor_all:
+            temp = data.a.text
+            temp2 = data.a.get('href')
+            allLinksjugan.append([temp2])
+            allHeaderjugan.append([temp])
+        linkAndHeader5 = zip(allHeaderjugan,allLinksjugan)    
         
-        
-    return render(request, 'home.html',{'linkAndHeader': linkAndHeader, 'linkAndHeader2': linkAndHeader2, 'linkAndHeader3':linkAndHeader3,'linkAndHeader4':linkAndHeader4})
+    return render(request, 'home.html',{'linkAndHeader': linkAndHeader, 'linkAndHeader2': linkAndHeader2, 'linkAndHeader3':linkAndHeader3,'linkAndHeader4':linkAndHeader4, 'linkAndHeader5': linkAndHeader5})
