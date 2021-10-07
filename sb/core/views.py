@@ -69,24 +69,19 @@ def get_html_content_akash(keywords):
 # jugantor 
 
 def get_html_content_jugantor_news(keywords):
-    import requests
-    # USER_AGENT = "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/44.0.2403.157 Safari/537.36"
-    # LANGUAGE = "en-US,en;q=0.5"
-    # session = requests.Session()
-    # session.headers['User-Agent'] = USER_AGENT
-    # session.headers['Accept-Language'] = LANGUAGE
-    # session.headers['Content-Language'] = LANGUAGE
-    driver = webdriver.Chrome('C:\chromedriver.exe')
+    # using selenium package with webdriver
+    #     
     
-
+    driver = webdriver.Chrome('C:\chromedriver.exe')
     if keywords:
         keywords = keywords.replace(' ','+')
-        # url = session.get(f'https://www.thedailystar.net/search?t={keywords}').text
-        # url = session.get(f'https://www.jugantor.com/search/google?q={keywords}').text
-        
-        # print(value)
-        driver.get(f'https://www.thedailystar.net/search?t={keywords}') #navigate to the page
-        url = driver.execute_script("return document.body.innerHTML")
+
+        # any url which is search from google Example are in 
+        # (f'https://www.thedailystar.net/search?t={keywords}') ##### => for daily star
+        # (f'https://www.jugantor.com/search/google?q={keywords}') ##### => for jugantor
+
+        driver.get(f'https://www.jugantor.com/search/google?q={keywords}') #navigate to the page
+        url = driver.execute_script("return document.body.innerHTML") # execute the script from html body tag
         
     else:
         keywords = ''
@@ -124,7 +119,6 @@ def home(request):
     if 'keywords' in request.GET:
         
         keywords = request.GET.get('keywords')
-        # test
 
         
         # protom alo
@@ -142,7 +136,7 @@ def home(request):
         # dmp news
         html_content_dmp_news = get_html_content_DMP_news(keywords)
 
-        import re
+        
         from bs4 import BeautifulSoup
         
         soup = BeautifulSoup(html_content, 'html.parser')
@@ -188,8 +182,7 @@ def home(request):
         # financial express
         soupForNewAge = BeautifulSoup(html_content_new_age,'html.parser')
         financialExp = soupForNewAge.find_all('div', class_="card row")
-        # financialExp = soupForNewAge.find_all('a', class_="local-news")
-
+        
 
         allLinksFinanceExp = []
         allHeaderFinanceExp = []
@@ -223,7 +216,7 @@ def home(request):
         
         # jugantor news all
         soupForjug = BeautifulSoup(html_content_jug,'html.parser')
-        # print(soupForjug)
+        
         jugantor_all = soupForjug.find_all('div', class_ = 'gsc-webResult gsc-result')
 
         allLinksjugan = []

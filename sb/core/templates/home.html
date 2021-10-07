@@ -1,29 +1,128 @@
-<!doctype html>
-<html lang="en">
-  <head>
-    
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
-    <link rel="stylesheet" href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css" integrity="sha384-AYmEC3Yw5cVb3ZcuHtOA93w35dYTsvhLPVnYs9eStHfGJvOvKxVfELGroGkvsg+p" crossorigin="anonymous"/>
-    <title>Django App</title>
-  </head>
-  <body>
-    <h1 class="text-center mt-4">Find Data</h1>
-      
-    <div class="container">
-        <nav class=" nav justify-content-center">
-            <form class="form-inline">
-              <input class="form-control" type="text" id="keywords" value="{{ request.GET.keywords }}" placeholder="Keyword you want to search...." name="keywords">
-              <button class="btn btn-outline-success my-2 my-sm-0" type="submit"><i class="fa fa-search"></i></button>
-            </form>
-        </nav>
-    </div>   
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<title>SB Police</title>
+	<meta name="description" content="">
+	
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta property="fb:pages" content="1684681591858102" />
+
+<script>
+	AccountKit_OnInteractive = function(){
+	AccountKit.init(
+		{
+		appId:"147079272362284",
+		state:"csrf",
+		version:"v1.0"
+		}
+	);
+	};
+	
+	function loginCallback(response) {
+	if (response.status === "PARTIALLY_AUTHENTICATED") {
+		document.getElementById("code").value = response.code;
+		document.getElementById("csrf_nonce").value = response.state;
+		document.getElementById("my_form").submit();
+	}
+	else if (response.status === "NOT_AUTHENTICATED") {
+		console.log("Authentication failure");
+	}
+	else if (response.status === "BAD_PARAMS") {
+		console.log("Bad parameters");
+	}
+	}
+	
+	function phone_btn_onclick() {
+		AccountKit.login('PHONE','+880',
+		loginCallback);
+	}
+	
+	function email_btn_onclick() {
+		AccountKit.login('EMAIL',{}, loginCallback);
+	}
+
+	function logout() {
+		document.location = 'logout.php';
+	}		
+</script>
+{% load static %}
+
+<!-- Bootstrap Core CSS -->
+<link href="{% static '/css/bootstrap.min.css' %}" rel="stylesheet">
+<!-- Custom Fonts -->
+<link href='https://fonts.googleapis.com/css?family=Roboto:400,100,300,500,700' rel='stylesheet' type='text/css'>
+<link href="{% static '/font-awesome/css/font-awesome.min.css' %} " rel="stylesheet" type="text/css">
+<!-- Custom CSS -->
+<!-- <link href="/css/preloader.css" rel="stylesheet"> -->
+<link href="{% static 'css/new_style.min.css' %}" rel="stylesheet">
+ <!-- jQuery UI CSS -->
+<!-- <link href="/css/select2.min.css" type="text/css" rel="stylesheet" media="none" onload="if(media!='all')media='all'"> -->
+<!--ime editor css-->
+<!-- <link href="/ime/css/jquery.ime.css" rel="stylesheet" media="none" onload="if(media!='all')media='all'"/> -->
+<!-- sweetalert/sweetalert -->
+<!-- <link href="/js/sweetalert/sweetalert.css" rel="stylesheet" media="none" onload="if(media!='all')media='all'"> -->
+<!-- <link href="/css/slick.css" rel="stylesheet" media="none" onload="if(media!='all')media='all'">	1 -->
+    <link title="timeline-styles" rel="stylesheet" href="{% static 'css/timeline.css' % }">
+	<style>
+		.tl-text h2.tl-headline, .tl-text h2.tl-headline-title{
+			font-size:34px !important;
+			line-height:34px !important;
+		}
+		.tl-text .tl-headline-date, .tl-text h3.tl-headline-date{
+			margin: 0 0 15px 0 !important;
+		}
+
+		.tl-timeline p{
+			font-size: 13px !important;
+			line-height: 1.5 !important;
+			margin-top: 17px !important;
+		}
+
+		.tl-timeline .tl-caption, .tl-timeline .tl-credit, .tl-timeline .tl-slidenav-next, .tl-timeline .tl-slidenav-previous {
+			padding: 15px !important;
+		}
+		
+		.tl-timenav .tl-attribution{
+			display: none;
+		}
+	</style>
+</head>
+
+<body id="page-top" class="index d-none d-md-block">
+	
+<!-- Navigation -->
+
+<div class="text-center" style="background: linear-gradient(120deg,#101056 30%,#28a4c9,#0b1284,#28a4c9,#ffffff);">
+
+    <img class="mt-4" src="{% static '/en.png' %}">
+</div>
+    <!-- Header -->
+    <header id="homes">
+        <div class="container">
+            <div class="intro-text">
+                <div class="intro-heading"><span style="color: #131b43;">আপনি কোন ধরনের তথ্য খোঁজ করছেন ?</span></div>
+                <form>
+					<input id="autocomplete" type="text" id="keywords" value="{{ request.GET.keywords }}" name="keywords" placeholder="কীওয়ার্ড টাইপ করুন">
+					<input id="homeSearchBtn" type="submit" class="button" class="button" value="খোঁজ করুন">
+					
+					<ul>
+					<li>সকল জাতীয় ও স্থানীয় দৈনিক পত্রিকা ভান্ডার থেকে খুঁজুন</li>
+					
+					</ul>
+                </form>
+            </div>
+        </div>
+    </header>
 
     {% if linkAndHeader %}
     <div class="container">
         <div class="row justify-content-center">
+
+                <div class="intro-heading"><h2 class="text-center" style="color: #dd150e;">খোঁজ পাওয়া সকল তথ্য</h2></div>
 
             <!-- Remember the order. First we put header in the zip. Then 
             link. By the same order we are extracting the vales. -->
@@ -53,9 +152,10 @@
             
         </div>
     </div>
-    {% else %}
-        <div class=" mt-5"><h3 style="color:brown;" class="text-center">Keywords For Search</h3></div>
+    
     {% endif %}
+
+    <br>
     <!-- dmp news -->
     {% if linkAndHeader4 %}
     
@@ -82,6 +182,7 @@
     
     {% endif %}
 
+
     <!-- google -->
 
     {% if linkAndHeader5 %}
@@ -93,11 +194,11 @@
             {% for allHeaderjugan,allLinksjugan in linkAndHeader5 %}
             
             <div class="col-md-6 mt-3 mb-3 ml-5 mr-5">
-                <div class="card">         
+                <div class="card"> 
                     <div class="card-body">
 
                         <h5 class="card-title text-sm-justify">{{allHeaderjugan.0}}</h5>
-                        <a href="{{allLinksjugan.0}}" target="_blank" class="btn btn-primary btn-block">Link (the daily star)</a>
+                        <a href="{{allLinksjugan.0}}" target="_blank" class="btn btn-primary btn-block">Link (Jugantor)</a>
                     </div>
                 </div>
             </div>
@@ -108,6 +209,7 @@
     </div>
     
     {% endif %}
+
 
     <!--  akashnews24 -->
     {% if linkAndHeader3 %}
@@ -162,8 +264,481 @@
     
     {% endif %}
     
-    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
-  </body>
+
+    <!-- Services Section -->
+    <section id="services" class="services">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12 text-center">
+                    <h2 class="section-heading">জরুরি সেবা</h2>
+                    <h3 class="section-subheading text-muted">যেকোন জরুরি যোগাযোগ যেমন ফায়ার সার্ভিস, অভিযোগ কেন্দ্র, পুলিশ ও হাসপাতালের তথ্য এখন খুঁজে পাবেন সহজেই।</h3>
+                </div>
+            </div>
+            <div class="row text-center">
+                <div class="col-md-3 col-xs-3">
+					<div class="service_wrap">
+						<a class="mobile_metro1" href="/partners/হাসপাতাল">
+							<span class="icon_setup">
+								<img class="img-centered" src="{% static 'img/icon.png'%}" alt="icons"/>
+							</span>
+							<h4 class="service-heading">হাসপাতাল</h4>
+							<p class="text-muted">নিকটস্থ হাসপাতালসমূহ</p>
+							
+						</a>	
+					</div>
+                </div>
+                <div class="col-md-3 col-xs-3">
+					<div class="service_wrap">
+						<a class="mobile_metro2" href="/partners/ফায়ার সার্ভিস">
+							<span class="icon_setup">
+								<img class="img-centered" src="{% static 'img/icon2.png'%}" alt="icons"/>
+							</span>
+							<h4 class="service-heading">ফায়ার সার্ভিস</h4>
+							<p class="text-muted">নিকটস্থ ফায়ার স্টেশন</p>
+							
+						</a>
+					</div>
+                </div>
+				<div class="col-md-3 col-xs-3">
+					<div class="service_wrap">
+						<a class="mobile_metro3" href="/partners/Bangladesh Police">
+							<span class="icon_setup">
+								<img class="img-centered" src="{% static 'img/icon4.png'%}" alt="icons"/>
+							</span>
+							<h4 class="service-heading">পুলিশ</h4>
+							<p class="text-muted">নিকটস্থ পুলিশ স্টেশন</p>
+							
+						</a>
+					</div>
+                </div>
+				
+                <div class="col-md-3 col-xs-3">
+					<div id="complain" class="service_wrap">
+						<a data-toggle="modal" data-target="#comModal">
+							<span class="icon_setup">
+								<img class="img-centered" src="{% static 'img/icon3.png'%}" alt="icons"/>
+							</span>
+							<h4 class="service-heading">অভিযোগ কেন্দ্র</h4>
+							<p class="text-muted">সেবা সংক্রান্ত অভিযোগ জানান</p>
+						</a>
+					</div>
+                </div>
+				
+            </div>
+        </div>
+    </section>
+
+
+
+    <!-- Clients Aside -->
+    
+    <form action="/loginAccKit-Callback.php" method="POST" id="my_form" style="margin: 0;">
+	<input type="hidden" name="code" id="code">
+	<input type="hidden" name="csrf_nonce" id="csrf_nonce">
+</form>
+<div class="modal fade" id="login-modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+	<div class="modal-dialog">
+    	<div class="modal-content">
+      		<div class="modal-header login_modal_header">
+        		<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+        		<h2 class="modal-title" id="myModalLabel">ন্যাশনাল ইমার্জেন্সি সার্ভিসে লগইন করুন</h2>
+      		</div>
+      		<div class="modal-body login-modal">
+      			<div id='social-icons-conatainer'>
+	        		<div class='modal-body-right'>
+						<p class="text-center">ফেসবুক/জিমেইলে-র মাধ্যমে লগইন করুন</p>
+	        			<div class="modal-social-icons">
+	        		    <a  href='' class="btn btn-raised btn-info btn-block" style="background-color:#3B5998;font-size: 15px;" > ফেসবুক </a>
+	        			 <a href='' class="btn btn-raised btn-danger btn-block" style="font-size: 15px;"> জিমেইল </a>
+	        			</div>
+	        		</div>
+	        	</div>
+				<div class='modal-body-left'>
+	        		<p class="text-center">কুইক লগইন</p>
+							<div id='social-icons-conatainer'>
+			        		<div class="modal-social-icons">
+			        		    <a onclick="phone_btn_onclick();" class="btn btn-raised btn-info btn-block" style="background-color:#3B5998;font-size: 15px;"> মোবাইল নাম্বার ব্যবহার করে</a>
+			        			 <a onclick="email_btn_onclick();" class="btn btn-raised btn-info btn-block" style="background-color:#3B5998;font-size: 15px;"> ইমেইল ঠিকানা ব্যবহার করে </a>
+			        	    </div>
+			        	</div>
+	        	</div>
+      		</div>
+      		<div class="clearfix"></div>
+      		<div class="modal-footer login_modal_footer">
+      		</div>
+    	</div>
+  	</div>
+</div>
+
+
+
+
+
+
+	<footer class="bottom_footer">
+
+        <div class="container">
+
+            <div class="row">
+
+                <div class="col-md-6">
+
+                    <span class="copyright">&copy;  বাংলাদেশ পুলিশ </span>
+
+                </div>
+
+                <div class="col-md-6 align-right hidden-xs">
+
+                    <a target="_blank" href="http://www.police.gov.bd/"><img style="width:18%;" src="{% static 'img/police-logo.png'%}" alt="bd-police"/></a>
+                    <!-- <a target="_blank" href="#"><img style="width:18%;" src="/img/999-logo.png" alt="bd-police"/></a> -->
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </footer>
+	
+	<!-- jQuery -->
+    <script src="/js/jquery.min.js"></script>
+	
+	<script type="text/javascript" src="//code.jquery.com/ui/1.10.3/jquery-ui.min.js"></script>
+
+    <!-- Bootstrap Core JavaScript -->
+    <script src="/js/bootstrap.min.js"></script>
+	<script src="/js/mixer.js"></script>
+	<script>
+		// $(window).load(function () {
+			// /* initialize shuffle plugin */
+			// if ($("#grid").length > 0)
+			// {
+				// var $grid = $('#grid');
+				// $grid.shuffle({
+					// itemSelector: '.galItem' // the selector for the items in the grid
+				// });
+			// }
+		// });
+	</script>
+    <!-- Plugin JavaScript -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-easing/1.3/jquery.easing.min.js"></script>
+    <script src="/js/classie.js"></script>
+    
+    <script src="/js/slick.min.js"></script>
+    <!-- Custom Theme JavaScript -->
+    <script src="/js/nhd.js"></script>
+	
+	<!-- Script Load Here -->
+	<!--<script type="text/javascript" src="https://use.fontawesome.com/b646e77c02.js"></script>-->
+	<script type="text/javascript" src="/js/avro.min.js"></script>
+	<script src="https://use.fontawesome.com/b646e77c02.js"></script>
+	<script src="https://almsaeedstudio.com/themes/AdminLTE/plugins/select2/select2.full.min.js"></script>
+    <script src="/js/jquery.autocomplete.min.js"></script>
+	<script src="/js/common.js"></script>
+	<!--ime editor scripts-->
+	<script src="/ime/libs/rangy/rangy-core.js"></script>
+	<script src="/ime/src/jquery.ime.js"></script>
+	<script src="/ime/src/jquery.ime.selector.js"></script>
+	<script src="/ime/src/jquery.ime.preferences.js"></script>
+	<script src="/ime/src/jquery.ime.inputmethods.js"></script>
+	
+	<script>
+		genToken = "";
+		$(function(){
+			//$('#autocomplete').avro({'bangla':true});
+			$.ime.preferences.setLanguage( 'bn' );
+			$.ime.preferences.setIM( 'bn-avro' );
+			$( '#autocomplete').ime();
+			
+			$('#autocomplete').keypress(function(e){
+				if(e.keyCode==13){
+					e.preventDefault();
+					$('#searchBtn').click();
+				}
+			});
+		});
+		
+		jQuery( document ).ready(function($) {
+			if (navigator.userAgent.indexOf('Mac OS X') != -1) {
+				$("body").addClass("mac");
+			} else {
+				$("body").addClass("pc");
+			}
+		});
+
+		$("#form-subscription").submit( function(e) {
+			e.preventDefault();
+            var formData = $("#form-subscription").serialize();//new FormData($(this)[0]);
+            $.ajax( {
+
+              type: "POST",
+
+              url: '/websvc/Mailchimp.php',
+
+              data: formData,
+
+              success: function( response ) {
+
+                if(response=="pending")
+                {
+					swal("জাতীয় হেল্পডেস্ক নিউজলেটার", "আপনার ইমেইলে কনফার্মেশন পাঠানো হয়েছে।  দয়া করে আপনার সাবস্ক্রিপশন কনফার্ম করুন।", "success");
+                }
+				else{
+					swal("দুঃখিত...", "আপনি এরই মধ্যে সাবস্ক্রাইবড আছেন", "error");
+				}
+				$("#form-subscription").trigger('reset');
+              },
+
+            });
+
+       	});
+
+		function complain(obj){
+			var isExist=false;
+			if(isExist==false)
+			{
+				$('#login-modal').modal('show');
+				$.post("/data_layer/helpers/set_redirect_url.php",  {url:"?&mode=complain"}, function(result){
+				});
+				e.stopPropagation();
+			}
+			else
+			{
+				$('#comModal').modal('show');
+				mode='complain';
+			}
+		}
+
+		$("#complain_form").submit( function() {
+				var formData = new FormData($(this)[0]);
+				
+			$.ajax( {
+			  type: "POST",
+			  url: '/websvc/common.php',
+			  data: formData,
+			  success: function( response ) {
+				alert(response);
+				$('#comModal').modal('hide');
+			  },
+					cache: false,
+			  contentType: false,
+			  processData: false
+			});
+				return false;
+		});
+
+		$(window).load(function(){
+		$('.wrap.go').fadeOut();
+		//$('.preloader').delay(300).fadeOut('slow');
+		// $('.preloader').delay(300).fadeOut('slow',function () {
+		// 	var mode='';
+		// 	if(mode=='complain')
+		// 	{
+		// 		$('#comModal').modal("show");
+		// 	}
+		// });
+	});
+	</script>
+	<script>
+	
+	  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+	  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+	  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+	  })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+
+	  ga('create', 'UA-78869688-3', 'auto');
+	  ga('send', 'pageview');
+
+	</script>
+	
+	
+
+	    <!-- additional scripts to be added here --> 
+	
+	<script type="text/javascript" charset="utf-8">
+
+		var additionalOptions = {
+            start_at_end: true,
+			width: "100%",
+         	height: "250",
+			timenav_height:"100"
+          };
+
+          
+
+		$(function(){
+			//$('#autocomplete').avro({'bangla':true});
+			$.ime.preferences.setLanguage( 'bn' );
+			$.ime.preferences.setIM( 'bn-avro' );
+
+			$( '#autocomplete').ime();
+		});
+
+		function resizeIframe(obj) {
+			obj.style.height = obj.contentWindow.document.body.scrollHeight + 'px';
+			console.log(obj.contentWindow.document.body.scrollHeight + 'px');
+		}
+		
+		$('#autocomplete').keypress(function(e){
+				if(e.keyCode==13){
+					e.preventDefault();
+					$('#homeSearchBtn').click();
+				}
+		});
+
+		$("#homeSearchBtn").on('click', function() {
+			window.location = window.location.origin+"/search/"+$('#autocomplete').val();
+		});
+
+	</script>
+	<script type="text/javascript" src="js/jquery.autocomplete.min.js"></script>
+	<script type="text/javascript" src="js/common.js"></script>
+	<script>
+	var popularOffset=3;
+	var lsOffset=3;
+	var isBangla=true;
+	var emOffset=3;
+	var limit=3;
+	genToken="";
+	
+	$('#complain').on('click', function(e) {
+		var isExist='false';
+		if(isExist=='false')
+		{
+			$('#login-modal').modal('show');
+			$.post("/data_layer/helpers/set_redirect_url.php",  {url:"/?mode=complain"}, function(result){
+			});
+			e.stopPropagation();
+		}
+	});
+
+	$(document).ready(function(){
+		//$('#promotionModal').modal('show');
+		$(this).find('.saikat').toggle();
+		$("#infoToggler").click(function() {
+			$(this).find('.saikat').toggle();
+		});
+
+		/*$.ajax({
+            url: "/websvc/common.php",
+            dataType: 'json',
+            type: 'POST',
+            data: {
+                action: 'get_partners'
+            },
+            success: partners_loaded,
+			error: function(jqXHR, textStatus, errorThrown) {
+				console.log(textStatus, errorThrown);
+			}
+		});*/
+
+	});
+	
+	function getPopularArticles(){
+		var popArtcileContainer = document.getElementById('popular');
+		$.ajax({
+            url: "/websvc/common.php",
+            dataType: 'json',
+            type: 'POST',
+            data: {
+                action: 'get_popular_articles',
+				token: genToken,
+				offset: popularOffset,
+				limit: limit
+            },
+           success: function( result ) {
+				for(var i=0;i<result.length;i++){
+					popArtcileContainer.innerHTML+='<div class="col-md-4">\
+											<div class="tab_content_wrap">\
+												<div class="tab_content_img">\
+													<img src="'+result[i].thumbnail+'" alt="images"/>\
+												</div>\
+												<h3><a target="_blank" href="http://999.gov.bd/content/'+result[i].linktitle+'">'+result[i].title+'</a></h3>\
+												<p>'+result[i].description+' </p>\
+											</div>\
+										</div>';
+					popularOffset+=3;
+				}
+			}
+		});
+	}
+	
+	function getEmergencyArticle(){
+		var emArtcileContainer = document.getElementById('emergency');
+		$.ajax({
+            url: "/websvc/common.php",
+            dataType: 'json',
+            type: 'POST',
+            data: {
+                action: 'get_emergency_articles',
+				token: genToken,
+				offset: emOffset,
+				limit: limit
+            },
+           success: function( result ) {
+				for(var i=0;i<result.length;i++){
+					emArtcileContainer.innerHTML+='<div class="col-md-4">\
+											<div class="tab_content_wrap">\
+												<div class="tab_content_img">\
+													<img src="'+result[i].thumbnail+'" alt="images"/>\
+												</div>\
+												<h3><a target="_blank" href="http://999.gov.bd/content/'+result[i].linktitle+'">'+result[i].title+'</a></h3>\
+												<p>'+result[i].description+' </p>\
+											</div>\
+										</div>';
+					emOffset+=3;
+				}
+			}
+		});
+	}
+
+
+
+	function getPopularLifeStyleArticles(){
+		var popLsArtcileContainer = document.getElementById('popularLS');
+		$.ajax({
+            url: "/websvc/common.php",
+            dataType: 'json',
+            type: 'POST',
+            data: {
+                action: 'get_popular_lsarticles',
+				token: genToken,
+				offset: lsOffset,
+				limit: limit
+            },
+           success: function( result ) {
+				for(var i=0;i<result.length;i++){
+					popLsArtcileContainer.innerHTML+='<div class="col-md-4">\
+											<div class="tab_content_wrap">\
+												<div class="tab_content_img">\
+													<img src="'+result[i].thumbnail+'" alt="images"/>\
+												</div>\
+												<h3><a target="_blank" href="http://999.gov.bd/content/'+result[i].linktitle+'">'+result[i].title+'</a></h3>\
+												<p>'+result[i].description+' </p>\
+											</div>\
+										</div>';
+					lsOffset+=3;
+				}
+			}
+		});
+	}
+
+	function partners_loaded(result) {
+		var ullist = $("#partners_container").append('<ul class="autoplay"></ul>').find('ul');
+		for(var i=0;i<result.length;i++)
+		{
+			var partnerHtml='<li><a target="_blank" href="/partners/'+result[i].id+'"><img src="/banner_logo/'+result[i].logo+'" class="img-responsive img-centered" alt=""></a></li>';
+			ullist.append(partnerHtml);
+		}
+
+		$('.autoplay').slick({
+		slidesToShow: 4,
+		slidesToScroll: 1,
+		autoplay: true,
+		autoplaySpeed: 3000,
+		});
+	};
+	</script>
+</body>
+
 </html>
