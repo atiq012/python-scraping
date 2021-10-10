@@ -89,6 +89,39 @@
 		.tl-timenav .tl-attribution{
 			display: none;
 		}
+		@media only screen and (max-width: 768px)  {
+			.logo-image{
+				max-width: 100%;
+			}
+
+			.service-heading{
+				color:white !important;
+			}
+			.service_wrap{
+				background-color: darkblue;
+				height: 95px;
+			}
+			
+			.intro-text{
+				padding-top: 20px !important;
+				background: #038944bf;
+			}
+			.button{
+				border: 0;
+				font-size: 20px;
+				padding: 6px 0;
+				width: 20px;
+				height: 20px;
+				margin-top: 10px;
+				text-indent: -9999px;
+				position: absolute;
+				right: 9px;
+				top: 0;
+				background: url({% static 'img/ic_search_blue.png' %}) no-repeat;
+				background-size: 100%;
+				margin-right: 10px;
+			}
+		}
 	</style>
 </head>
 
@@ -98,7 +131,7 @@
 
 <div class="text-center" style="background: linear-gradient(120deg,#101056 30%,#28a4c9,#0b1284,#28a4c9,#ffffff);">
 
-    <img class="mt-4" src="{% static '/en.png' %}">
+    <img class="mt-4 logo-image" src="{% static '/en.png' %}">
 </div>
     <!-- Header -->
     <header id="homes">
@@ -107,7 +140,7 @@
                 <div class="intro-heading"><span style="color: #131b43;">আপনি কোন ধরনের তথ্য খোঁজ করছেন ?</span></div>
                 <form>
 					<input id="autocomplete" type="text" id="keywords" value="{{ request.GET.keywords }}" name="keywords" placeholder="কীওয়ার্ড টাইপ করুন">
-					<input id="homeSearchBtn" type="submit" class="button" class="button" value="খোঁজ করুন">
+					<input id="homeSearchBtn" type="submit" class="button" value="খোঁজ করুন">
 					
 					<ul>
 					<li>সকল জাতীয় ও স্থানীয় দৈনিক পত্রিকা ভান্ডার থেকে খুঁজুন</li>
@@ -275,7 +308,7 @@
                 </div>
             </div>
             <div class="row text-center">
-                <div class="col-md-3 col-xs-3">
+                <div class="col-md-3 col-xs-6">
 					<div class="service_wrap">
 						<a class="mobile_metro1" href="/partners/হাসপাতাল">
 							<span class="icon_setup">
@@ -287,7 +320,7 @@
 						</a>	
 					</div>
                 </div>
-                <div class="col-md-3 col-xs-3">
+                <div class="col-md-3 col-xs-6">
 					<div class="service_wrap">
 						<a class="mobile_metro2" href="/partners/ফায়ার সার্ভিস">
 							<span class="icon_setup">
@@ -299,7 +332,7 @@
 						</a>
 					</div>
                 </div>
-				<div class="col-md-3 col-xs-3">
+				<div class="col-md-3 col-xs-6">
 					<div class="service_wrap">
 						<a class="mobile_metro3" href="/partners/Bangladesh Police">
 							<span class="icon_setup">
@@ -312,7 +345,7 @@
 					</div>
                 </div>
 				
-                <div class="col-md-3 col-xs-3">
+                <div class="col-md-3 col-xs-6">
 					<div id="complain" class="service_wrap">
 						<a data-toggle="modal" data-target="#comModal">
 							<span class="icon_setup">
@@ -400,345 +433,6 @@
 
     </footer>
 	
-	<!-- jQuery -->
-    <script src="/js/jquery.min.js"></script>
-	
-	<script type="text/javascript" src="//code.jquery.com/ui/1.10.3/jquery-ui.min.js"></script>
-
-    <!-- Bootstrap Core JavaScript -->
-    <script src="/js/bootstrap.min.js"></script>
-	<script src="/js/mixer.js"></script>
-	<script>
-		// $(window).load(function () {
-			// /* initialize shuffle plugin */
-			// if ($("#grid").length > 0)
-			// {
-				// var $grid = $('#grid');
-				// $grid.shuffle({
-					// itemSelector: '.galItem' // the selector for the items in the grid
-				// });
-			// }
-		// });
-	</script>
-    <!-- Plugin JavaScript -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-easing/1.3/jquery.easing.min.js"></script>
-    <script src="/js/classie.js"></script>
-    
-    <script src="/js/slick.min.js"></script>
-    <!-- Custom Theme JavaScript -->
-    <script src="/js/nhd.js"></script>
-	
-	<!-- Script Load Here -->
-	<!--<script type="text/javascript" src="https://use.fontawesome.com/b646e77c02.js"></script>-->
-	<script type="text/javascript" src="/js/avro.min.js"></script>
-	<script src="https://use.fontawesome.com/b646e77c02.js"></script>
-	<script src="https://almsaeedstudio.com/themes/AdminLTE/plugins/select2/select2.full.min.js"></script>
-    <script src="/js/jquery.autocomplete.min.js"></script>
-	<script src="/js/common.js"></script>
-	<!--ime editor scripts-->
-	<script src="/ime/libs/rangy/rangy-core.js"></script>
-	<script src="/ime/src/jquery.ime.js"></script>
-	<script src="/ime/src/jquery.ime.selector.js"></script>
-	<script src="/ime/src/jquery.ime.preferences.js"></script>
-	<script src="/ime/src/jquery.ime.inputmethods.js"></script>
-	
-	<script>
-		genToken = "";
-		$(function(){
-			//$('#autocomplete').avro({'bangla':true});
-			$.ime.preferences.setLanguage( 'bn' );
-			$.ime.preferences.setIM( 'bn-avro' );
-			$( '#autocomplete').ime();
-			
-			$('#autocomplete').keypress(function(e){
-				if(e.keyCode==13){
-					e.preventDefault();
-					$('#searchBtn').click();
-				}
-			});
-		});
-		
-		jQuery( document ).ready(function($) {
-			if (navigator.userAgent.indexOf('Mac OS X') != -1) {
-				$("body").addClass("mac");
-			} else {
-				$("body").addClass("pc");
-			}
-		});
-
-		$("#form-subscription").submit( function(e) {
-			e.preventDefault();
-            var formData = $("#form-subscription").serialize();//new FormData($(this)[0]);
-            $.ajax( {
-
-              type: "POST",
-
-              url: '/websvc/Mailchimp.php',
-
-              data: formData,
-
-              success: function( response ) {
-
-                if(response=="pending")
-                {
-					swal("জাতীয় হেল্পডেস্ক নিউজলেটার", "আপনার ইমেইলে কনফার্মেশন পাঠানো হয়েছে।  দয়া করে আপনার সাবস্ক্রিপশন কনফার্ম করুন।", "success");
-                }
-				else{
-					swal("দুঃখিত...", "আপনি এরই মধ্যে সাবস্ক্রাইবড আছেন", "error");
-				}
-				$("#form-subscription").trigger('reset');
-              },
-
-            });
-
-       	});
-
-		function complain(obj){
-			var isExist=false;
-			if(isExist==false)
-			{
-				$('#login-modal').modal('show');
-				$.post("/data_layer/helpers/set_redirect_url.php",  {url:"?&mode=complain"}, function(result){
-				});
-				e.stopPropagation();
-			}
-			else
-			{
-				$('#comModal').modal('show');
-				mode='complain';
-			}
-		}
-
-		$("#complain_form").submit( function() {
-				var formData = new FormData($(this)[0]);
-				
-			$.ajax( {
-			  type: "POST",
-			  url: '/websvc/common.php',
-			  data: formData,
-			  success: function( response ) {
-				alert(response);
-				$('#comModal').modal('hide');
-			  },
-					cache: false,
-			  contentType: false,
-			  processData: false
-			});
-				return false;
-		});
-
-		$(window).load(function(){
-		$('.wrap.go').fadeOut();
-		//$('.preloader').delay(300).fadeOut('slow');
-		// $('.preloader').delay(300).fadeOut('slow',function () {
-		// 	var mode='';
-		// 	if(mode=='complain')
-		// 	{
-		// 		$('#comModal').modal("show");
-		// 	}
-		// });
-	});
-	</script>
-	<script>
-	
-	  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
-	  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
-	  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
-	  })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
-
-	  ga('create', 'UA-78869688-3', 'auto');
-	  ga('send', 'pageview');
-
-	</script>
-	
-	
-
-	    <!-- additional scripts to be added here --> 
-	
-	<script type="text/javascript" charset="utf-8">
-
-		var additionalOptions = {
-            start_at_end: true,
-			width: "100%",
-         	height: "250",
-			timenav_height:"100"
-          };
-
-          
-
-		$(function(){
-			//$('#autocomplete').avro({'bangla':true});
-			$.ime.preferences.setLanguage( 'bn' );
-			$.ime.preferences.setIM( 'bn-avro' );
-
-			$( '#autocomplete').ime();
-		});
-
-		function resizeIframe(obj) {
-			obj.style.height = obj.contentWindow.document.body.scrollHeight + 'px';
-			console.log(obj.contentWindow.document.body.scrollHeight + 'px');
-		}
-		
-		$('#autocomplete').keypress(function(e){
-				if(e.keyCode==13){
-					e.preventDefault();
-					$('#homeSearchBtn').click();
-				}
-		});
-
-		$("#homeSearchBtn").on('click', function() {
-			window.location = window.location.origin+"/search/"+$('#autocomplete').val();
-		});
-
-	</script>
-	<script type="text/javascript" src="js/jquery.autocomplete.min.js"></script>
-	<script type="text/javascript" src="js/common.js"></script>
-	<script>
-	var popularOffset=3;
-	var lsOffset=3;
-	var isBangla=true;
-	var emOffset=3;
-	var limit=3;
-	genToken="";
-	
-	$('#complain').on('click', function(e) {
-		var isExist='false';
-		if(isExist=='false')
-		{
-			$('#login-modal').modal('show');
-			$.post("/data_layer/helpers/set_redirect_url.php",  {url:"/?mode=complain"}, function(result){
-			});
-			e.stopPropagation();
-		}
-	});
-
-	$(document).ready(function(){
-		//$('#promotionModal').modal('show');
-		$(this).find('.saikat').toggle();
-		$("#infoToggler").click(function() {
-			$(this).find('.saikat').toggle();
-		});
-
-		/*$.ajax({
-            url: "/websvc/common.php",
-            dataType: 'json',
-            type: 'POST',
-            data: {
-                action: 'get_partners'
-            },
-            success: partners_loaded,
-			error: function(jqXHR, textStatus, errorThrown) {
-				console.log(textStatus, errorThrown);
-			}
-		});*/
-
-	});
-	
-	function getPopularArticles(){
-		var popArtcileContainer = document.getElementById('popular');
-		$.ajax({
-            url: "/websvc/common.php",
-            dataType: 'json',
-            type: 'POST',
-            data: {
-                action: 'get_popular_articles',
-				token: genToken,
-				offset: popularOffset,
-				limit: limit
-            },
-           success: function( result ) {
-				for(var i=0;i<result.length;i++){
-					popArtcileContainer.innerHTML+='<div class="col-md-4">\
-											<div class="tab_content_wrap">\
-												<div class="tab_content_img">\
-													<img src="'+result[i].thumbnail+'" alt="images"/>\
-												</div>\
-												<h3><a target="_blank" href="http://999.gov.bd/content/'+result[i].linktitle+'">'+result[i].title+'</a></h3>\
-												<p>'+result[i].description+' </p>\
-											</div>\
-										</div>';
-					popularOffset+=3;
-				}
-			}
-		});
-	}
-	
-	function getEmergencyArticle(){
-		var emArtcileContainer = document.getElementById('emergency');
-		$.ajax({
-            url: "/websvc/common.php",
-            dataType: 'json',
-            type: 'POST',
-            data: {
-                action: 'get_emergency_articles',
-				token: genToken,
-				offset: emOffset,
-				limit: limit
-            },
-           success: function( result ) {
-				for(var i=0;i<result.length;i++){
-					emArtcileContainer.innerHTML+='<div class="col-md-4">\
-											<div class="tab_content_wrap">\
-												<div class="tab_content_img">\
-													<img src="'+result[i].thumbnail+'" alt="images"/>\
-												</div>\
-												<h3><a target="_blank" href="http://999.gov.bd/content/'+result[i].linktitle+'">'+result[i].title+'</a></h3>\
-												<p>'+result[i].description+' </p>\
-											</div>\
-										</div>';
-					emOffset+=3;
-				}
-			}
-		});
-	}
-
-
-
-	function getPopularLifeStyleArticles(){
-		var popLsArtcileContainer = document.getElementById('popularLS');
-		$.ajax({
-            url: "/websvc/common.php",
-            dataType: 'json',
-            type: 'POST',
-            data: {
-                action: 'get_popular_lsarticles',
-				token: genToken,
-				offset: lsOffset,
-				limit: limit
-            },
-           success: function( result ) {
-				for(var i=0;i<result.length;i++){
-					popLsArtcileContainer.innerHTML+='<div class="col-md-4">\
-											<div class="tab_content_wrap">\
-												<div class="tab_content_img">\
-													<img src="'+result[i].thumbnail+'" alt="images"/>\
-												</div>\
-												<h3><a target="_blank" href="http://999.gov.bd/content/'+result[i].linktitle+'">'+result[i].title+'</a></h3>\
-												<p>'+result[i].description+' </p>\
-											</div>\
-										</div>';
-					lsOffset+=3;
-				}
-			}
-		});
-	}
-
-	function partners_loaded(result) {
-		var ullist = $("#partners_container").append('<ul class="autoplay"></ul>').find('ul');
-		for(var i=0;i<result.length;i++)
-		{
-			var partnerHtml='<li><a target="_blank" href="/partners/'+result[i].id+'"><img src="/banner_logo/'+result[i].logo+'" class="img-responsive img-centered" alt=""></a></li>';
-			ullist.append(partnerHtml);
-		}
-
-		$('.autoplay').slick({
-		slidesToShow: 4,
-		slidesToScroll: 1,
-		autoplay: true,
-		autoplaySpeed: 3000,
-		});
-	};
-	</script>
 </body>
 
 </html>
