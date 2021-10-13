@@ -11,63 +11,25 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta property="fb:pages" content="1684681591858102" />
 
-<script>
-	AccountKit_OnInteractive = function(){
-	AccountKit.init(
-		{
-		appId:"147079272362284",
-		state:"csrf",
-		version:"v1.0"
-		}
-	);
-	};
-	
-	function loginCallback(response) {
-	if (response.status === "PARTIALLY_AUTHENTICATED") {
-		document.getElementById("code").value = response.code;
-		document.getElementById("csrf_nonce").value = response.state;
-		document.getElementById("my_form").submit();
-	}
-	else if (response.status === "NOT_AUTHENTICATED") {
-		console.log("Authentication failure");
-	}
-	else if (response.status === "BAD_PARAMS") {
-		console.log("Bad parameters");
-	}
-	}
-	
-	function phone_btn_onclick() {
-		AccountKit.login('PHONE','+880',
-		loginCallback);
-	}
-	
-	function email_btn_onclick() {
-		AccountKit.login('EMAIL',{}, loginCallback);
-	}
 
-	function logout() {
-		document.location = 'logout.php';
-	}		
-</script>
 {% load static %}
 
 <!-- Bootstrap Core CSS -->
 <link href="{% static '/css/bootstrap.min.css' %}" rel="stylesheet">
-<!-- Custom Fonts -->
+
 <link href='https://fonts.googleapis.com/css?family=Roboto:400,100,300,500,700' rel='stylesheet' type='text/css'>
 <link href="{% static '/font-awesome/css/font-awesome.min.css' %} " rel="stylesheet" type="text/css">
-<!-- Custom CSS -->
-<!-- <link href="/css/preloader.css" rel="stylesheet"> -->
+
 <link href="{% static 'css/new_style.min.css' %}" rel="stylesheet">
- <!-- jQuery UI CSS -->
-<!-- <link href="/css/select2.min.css" type="text/css" rel="stylesheet" media="none" onload="if(media!='all')media='all'"> -->
-<!--ime editor css-->
-<!-- <link href="/ime/css/jquery.ime.css" rel="stylesheet" media="none" onload="if(media!='all')media='all'"/> -->
-<!-- sweetalert/sweetalert -->
-<!-- <link href="/js/sweetalert/sweetalert.css" rel="stylesheet" media="none" onload="if(media!='all')media='all'"> -->
-<!-- <link href="/css/slick.css" rel="stylesheet" media="none" onload="if(media!='all')media='all'">	1 -->
-    <link title="timeline-styles" rel="stylesheet" href="{% static 'css/timeline.css' % }">
+ 
+<link title="timeline-styles" rel="stylesheet" href="{% static 'css/timeline.css' % }">
 	<style>
+		a:visited {
+			color: #660099;
+		}
+		a:hover{
+			color: white;
+		}
 		.tl-text h2.tl-headline, .tl-text h2.tl-headline-title{
 			font-size:34px !important;
 			line-height:34px !important;
@@ -123,6 +85,16 @@
 			}
 		}
 	</style>
+<link rel="stylesheet" href="//code.jquery.com/ui/1.13.0/themes/base/jquery-ui.css">
+<link rel="stylesheet" href="/resources/demos/style.css">
+<script src="https://code.jquery.com/jquery-3.6.0.js"></script>
+<script src="https://code.jquery.com/ui/1.13.0/jquery-ui.js"></script>
+<script>
+$( function() {
+  $( "#datepicker" ).datepicker();
+  $( "#datepicker2" ).datepicker();
+});
+</script>
 </head>
 
 <body id="page-top" class="index d-none d-md-block">
@@ -137,11 +109,18 @@
     <header id="homes">
         <div class="container">
             <div class="intro-text">
-                <div class="intro-heading"><span style="color: #131b43;">আপনি কোন ধরনের তথ্য খোঁজ করছেন ?</span></div>
+                <div class="intro-heading"><span style="color: #131b43;"><b>আপনি কোন ধরনের তথ্য খোঁজ করছেন ?</b></span></div>
                 <form>
 					<input id="autocomplete" type="text" id="keywords" value="{{ request.GET.keywords }}" name="keywords" placeholder="কীওয়ার্ড টাইপ করুন">
 					<input id="homeSearchBtn" type="submit" class="button" value="খোঁজ করুন">
-					
+					<div class="row">
+						<div class="col-md-6" style="margin-top: 2%;">
+							<input type="text" id="datepicker" name="from" placeholder="From" value="{{ request.GET.from }}">
+						</div>
+						<div class="col-md-6" style="margin-top: 2%;">
+							<input type="text" id="datepicker2" name="to" placeholder="To" value="{{ request.GET.to }}">
+						</div>
+					</div>
 					<ul>
 					<li>সকল জাতীয় ও স্থানীয় দৈনিক পত্রিকা ভান্ডার থেকে খুঁজুন</li>
 					
@@ -310,7 +289,7 @@
             <div class="row text-center">
                 <div class="col-md-3 col-xs-6">
 					<div class="service_wrap">
-						<a class="mobile_metro1" href="/partners/হাসপাতাল">
+						<a class="mobile_metro1" href="">
 							<span class="icon_setup">
 								<img class="img-centered" src="{% static 'img/icon.png'%}" alt="icons"/>
 							</span>
@@ -322,7 +301,7 @@
                 </div>
                 <div class="col-md-3 col-xs-6">
 					<div class="service_wrap">
-						<a class="mobile_metro2" href="/partners/ফায়ার সার্ভিস">
+						<a class="mobile_metro2" href="">
 							<span class="icon_setup">
 								<img class="img-centered" src="{% static 'img/icon2.png'%}" alt="icons"/>
 							</span>
@@ -334,7 +313,7 @@
                 </div>
 				<div class="col-md-3 col-xs-6">
 					<div class="service_wrap">
-						<a class="mobile_metro3" href="/partners/Bangladesh Police">
+						<a class="mobile_metro3" href="">
 							<span class="icon_setup">
 								<img class="img-centered" src="{% static 'img/icon4.png'%}" alt="icons"/>
 							</span>
@@ -347,7 +326,7 @@
 				
                 <div class="col-md-3 col-xs-6">
 					<div id="complain" class="service_wrap">
-						<a data-toggle="modal" data-target="#comModal">
+						<a href="">
 							<span class="icon_setup">
 								<img class="img-centered" src="{% static 'img/icon3.png'%}" alt="icons"/>
 							</span>

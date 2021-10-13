@@ -1,12 +1,13 @@
+from typing import final
 from django.http.response import HttpResponse
 from django.http import HttpResponse
 from django.shortcuts import render
 from requests.sessions import session
 from selenium import webdriver
 
+
 # prothom alo
 def get_html_content(keywords):
-    
     import requests
 
     USER_AGENT = "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/44.0.2403.157 Safari/537.36"
@@ -15,6 +16,7 @@ def get_html_content(keywords):
     session.headers['User-Agent'] = USER_AGENT
     session.headers['Accept-Language'] = LANGUAGE
     session.headers['Content-Language'] = LANGUAGE
+    
     if keywords:
         keywords = keywords.replace(' ','%20')
 
@@ -26,9 +28,26 @@ def get_html_content(keywords):
     
     return html_content
 
+def get_date_news(link):
+    import requests
+    
+    USER_AGENT = "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/44.0.2403.157 Safari/537.36"
+    LANGUAGE = "en-US,en;q=0.5"
+    session = requests.Session()
+    session.headers['User-Agent'] = USER_AGENT
+    session.headers['Accept-Language'] = LANGUAGE
+    session.headers['Content-Language'] = LANGUAGE
+
+    html_content = session.get(f'{link}').text
+
+    return html_content
+
 # the financial express
 def get_html_content_new_age(keywords):
+    
+    
     import requests
+
     USER_AGENT = "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/44.0.2403.157 Safari/537.36"
     LANGUAGE = "en-US,en;q=0.5"
     session = requests.Session()
@@ -47,7 +66,10 @@ def get_html_content_new_age(keywords):
 
 # akashtv24 
 def get_html_content_akash(keywords):
+    
+    
     import requests
+
     USER_AGENT = "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/44.0.2403.157 Safari/537.36"
     LANGUAGE = "en-US,en;q=0.5"
     session = requests.Session()
@@ -90,7 +112,9 @@ def get_html_content_jugantor_news(keywords):
 
 # dmp news
 def get_html_content_DMP_news(keywords):
+    
     import requests
+
     USER_AGENT = "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/44.0.2403.157 Safari/537.36"
     LANGUAGE = "en-US,en;q=0.5"
     session = requests.Session()
@@ -107,7 +131,6 @@ def get_html_content_DMP_news(keywords):
         url = '' 
     return url
     
-
 def home(request):
         
     divs = None
@@ -118,8 +141,11 @@ def home(request):
     linkAndHeader5 = None
     if 'keywords' in request.GET:
         
-        keywords = request.GET.get('keywords')
+        fromDate = request.GET.get('from')
 
+        toDate = request.GET.get('to')
+        
+        keywords = request.GET.get('keywords')
         
         # protom alo
         html_content = get_html_content(keywords)
@@ -149,12 +175,54 @@ def home(request):
         allHeader = []
 
         for items in divs:
+            
             temp = items.a.text  # Getting Header
             temp2 = items.a.get('href') # Getting Link
+            value = get_date_news(temp2)
             
-            # Adding them in list.
-            allHeader.append([temp])
-            allLinks.append([temp2])
+            soup = BeautifulSoup(value, 'html.parser')
+            div = soup.find('div', class_ = 'storyPageMetaData-m__publish-time__19bdV storyPageMetaData-m__no-update__3AA06')
+            if(div):
+                tag = div.time
+                attribute = tag['datetime']
+            else:                
+                attribute = []
+            
+            
+            if(attribute):
+                from datetime import timedelta,datetime
+                strs = attribute[::-1].replace(':','',1)[::-1]
+
+                try:
+                    offset = int(strs[-5:])
+                except:
+                    print ("Error")
+
+                delta = timedelta(hours = offset / 100)
+                time = datetime.strptime(strs[:-5], "%Y-%m-%dT%H:%M:%S")
+                time -= delta                
+                final_date = time.date()
+            else:
+                final_date = []
+
+            from datetime import datetime
+            if(fromDate):
+                date1_obj = datetime.strptime(toDate,'%m/%d/%Y')           
+                todate_fin = date1_obj.date()
+            else:
+                todate_fin = None
+            if(fromDate):
+                date2_obj = datetime.strptime(fromDate,'%m/%d/%Y')
+                fromDate_fin = date2_obj.date()
+            else:
+                fromDate_fin = None
+            
+            if(fromDate_fin == None or todate_fin == None):
+                allHeader.append([temp])
+                allLinks.append([temp2])
+            elif((todate_fin >= final_date) and (final_date >= fromDate_fin)):
+                allHeader.append([temp])
+                allLinks.append([temp2])
             
         # We have two list. So, we will zip them. 
         # First putting header in the zip then link.
@@ -226,6 +294,6 @@ def home(request):
             temp2 = data.a.get('href')
             allLinksjugan.append([temp2])
             allHeaderjugan.append([temp])
-        linkAndHeader5 = zip(allHeaderjugan,allLinksjugan)    
+        linkAndHeader5 = zip(allHeaderjugan,allLinksjugan)
         
     return render(request, 'home.html',{'linkAndHeader': linkAndHeader, 'linkAndHeader2': linkAndHeader2, 'linkAndHeader3':linkAndHeader3,'linkAndHeader4':linkAndHeader4, 'linkAndHeader5': linkAndHeader5})
