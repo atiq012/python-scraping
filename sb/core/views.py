@@ -91,8 +91,7 @@ def get_html_content_akash(keywords):
 # jugantor 
 
 def get_html_content_jugantor_news(keywords):
-    # using selenium package with webdriver
-    #     
+    # using selenium package with webdriver     
     
     driver = webdriver.Chrome('C:\chromedriver.exe')
     if keywords:
@@ -205,19 +204,22 @@ def home(request):
             else:
                 final_date = []
 
-            from datetime import datetime
-            if(fromDate):
+            from datetime import datetime,date
+            
+            if(toDate):
                 date1_obj = datetime.strptime(toDate,'%m/%d/%Y')           
                 todate_fin = date1_obj.date()
+                
+
             else:
-                todate_fin = None
+                todate_fin = date.today()
             if(fromDate):
                 date2_obj = datetime.strptime(fromDate,'%m/%d/%Y')
                 fromDate_fin = date2_obj.date()
             else:
-                fromDate_fin = None
+                fromDate_fin = date.today()
             
-            if(fromDate_fin == None or todate_fin == None):
+            if(fromDate_fin == date.today() or todate_fin == date.today()):
                 allHeader.append([temp])
                 allLinks.append([temp2])
             elif((todate_fin >= final_date) and (final_date >= fromDate_fin)):
@@ -240,7 +242,6 @@ def home(request):
             
             temp2 = items.a.get('href') # Getting Link
             
-            
             # Adding them in list.
             allHeaderAkash.append([temp])
             allLinksAkash.append([temp2])
@@ -250,7 +251,6 @@ def home(request):
         # financial express
         soupForNewAge = BeautifulSoup(html_content_new_age,'html.parser')
         financialExp = soupForNewAge.find_all('div', class_="card row")
-        
 
         allLinksFinanceExp = []
         allHeaderFinanceExp = []

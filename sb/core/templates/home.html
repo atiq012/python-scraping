@@ -111,19 +111,18 @@ $( function() {
             <div class="intro-text">
                 <div class="intro-heading"><span style="color: #131b43;"><b>আপনি কোন ধরনের তথ্য খোঁজ করছেন ?</b></span></div>
                 <form>
-					<input id="autocomplete" type="text" id="keywords" value="{{ request.GET.keywords }}" name="keywords" placeholder="কীওয়ার্ড টাইপ করুন">
+					<input id="autocomplete" type="text" id="keywords" required value="{{ request.GET.keywords }}" name="keywords" placeholder="কীওয়ার্ড টাইপ করুন">
 					<input id="homeSearchBtn" type="submit" class="button" value="খোঁজ করুন">
 					<div class="row">
 						<div class="col-md-6" style="margin-top: 2%;">
-							<input type="text" id="datepicker" name="from" placeholder="From" value="{{ request.GET.from }}">
+							<input type="text" id="datepicker" name="from" placeholder="থেকে" value="{{ request.GET.from }}">
 						</div>
 						<div class="col-md-6" style="margin-top: 2%;">
-							<input type="text" id="datepicker2" name="to" placeholder="To" value="{{ request.GET.to }}">
+							<input type="text" id="datepicker2" name="to" placeholder="পর্যন্ত" value="{{ request.GET.to }}">
 						</div>
 					</div>
 					<ul>
-					<li>সকল জাতীয় ও স্থানীয় দৈনিক পত্রিকা ভান্ডার থেকে খুঁজুন</li>
-					
+					    <li>সকল জাতীয় ও স্থানীয় দৈনিক পত্রিকা ভান্ডার থেকে খুঁজুন</li>					
 					</ul>
                 </form>
             </div>
